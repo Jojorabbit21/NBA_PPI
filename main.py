@@ -94,35 +94,55 @@ team_id = { # NBA.STAT ID TO ABR
 }
 
 def get_player_stats():
+  print("GET PLAYER STATS")
+  print("CLEARING SHEETS")
   clear_sheet('STAT','B1:CC')
   js = get_json_data(trad_url)
   df = to_data_frame(js)
+  print("PLAYERS STATS COLLECTED")
   df.sort_values(by=['TEAM_ABBREVIATION'], axis=0, inplace=True)
+  print("UPLOADING PLAYER STATS")
   upload_dataframes(df,'STAT',index=False,columns=True)
+  print("GET PLAYER STATS DONE")
 
 def get_player_advanced_stats():
+  print("GET PLAYER ADVANCED STATS")
+  print("CLEARING SHEETS")
   clear_sheet('STAT_A','B1:CC')
   js = get_json_data(adv_url)
   df = to_data_frame(js)
+  print("PLAYER ADVANCED STATS COLLECTED")
   df.sort_values(by=['TEAM_ABBREVIATION'], axis=0, inplace=True)
+  print("UPLOADING PLAYER ADVANCED STATS")
   upload_dataframes(df,'STAT_A',index=False,columns=True)
+  print("GET PLAYER ADVANCED STATS DONE")
 
 def get_team_adv():
   raw = requests.get(team_adv_url)
   html = raw.text
   df = pd.read_html(html,match='Advanced')[0]
+  print("GET TEAM ADVANCED STATS")
   df.columns = df.columns.droplevel()
   df = df.drop(['Rk','Unnamed: 17_level_1','Unnamed: 22_level_1','Unnamed: 27_level_1','Attend.','Attend./G'], axis=1)
   df = df.drop(30, axis=0)
   df.sort_values(by=['Team'],axis=0,inplace=True)
+  print("TEAM ADVANCED STATS COLLECTED")
+  print("CLEARING SHEETS")
   clear_sheet('TEAM_A','A1:Y31')
+  print("UPLOADING TEAM ADVANCED STATS")
   upload_dataframes(df,'TEAM_A',index=False, columns=True)
+  print("GET TEAM ADVANCED STATS DONE")
 
 def get_team_stats():
+  print("GET TEAM STATS")
+  print("CLEARING SHEETS")
   clear_sheet('TEAM')
   js = get_json_data(data_url)
   df = to_data_frame(js)
+  print("TEAM STATS COLLECTED")
+  print("UPLOADING TEAM STATS")
   upload_dataframes(df,'TEAM',index=False,columns=True)
+  print("GET TEAM STATS DONE")
 
 def get_json_data(url):
     raw_data = requests.get(url, headers=data_headers)
@@ -142,14 +162,17 @@ def to_data_frame(data):
     return df
 
 def get_starting_lineups(): #WIP
+    print("GET MATCHUPS AND STARTING LINEUPS")
     td = datetime.now()
     est = td - timedelta(hours=14)
     fd = est.strftime('%Y%m%d')
-    url = starters_url.format('20211210')
+    url = starters_url.format(fd)
     raw_data = requests.get(url, headers=games_header)
     json = raw_data.json()
     keys = json.keys()
     match_info = []
+    print("MATCHUP & LINEUP COLLECTED")
+    print('SANITIZING')
     for i in keys:
       single = []
       single.append(json[i]['htmid'])
@@ -168,36 +191,12 @@ def get_starting_lineups(): #WIP
             single.append("")
       match_info.append(single)
     df = pd.DataFrame(data=match_info)
+    print("CLEARING SHEETS")
     clear_sheet('M','A2:AL20')
+    print('UPLOADING MATCHUPS AND LINEUPS')
     upload_dataframes(df, 'M', index=False, columns=False)
+    print("GET MATCHUPS AND LINEUPS DONE")
 
- 
-def get_player_list():
-  URL = 'https://www.basketball-reference.com/players/{}/'
-  USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
-  ABR = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','y','z']
-  header = {
-    "User-Agent": USER_AGENT
-  }
-
-  ps_df = pd.DataFrame()
-  for i in ABR:
-    player_name = []
-    player_suffix = []
-    req = requests.get(URL.format(i),headers=header)
-    req.encoding = 'utf-8'
-    if req.status_code == 200:
-      html = req.text
-      soup = BeautifulSoup(html, 'lxml')
-      strong = soup.select('#players > tbody > tr > th > strong > a')
-      for suffix in strong:
-        player_name.append(suffix.text)
-        player_suffix.append(suffix['href'])
-      df = pd.DataFrame(columns=['PLAYERS','SUFFIX'])
-      df['PLAYERS']=player_name
-      df['SUFFIX']=player_suffix
-      ps_df = pd.concat([ps_df, df], axis=0)
-    upload_dataframes(ps_df, 'PMAP')
 
 if __name__ == '__main__':
   get_player_stats()
