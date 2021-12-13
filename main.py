@@ -202,6 +202,6 @@ def main():
   #get_team_adv()
   #get_team_stats()
 
-if __name__ == '__main__':
-  main()
+# Start
+main()
 
