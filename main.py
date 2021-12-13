@@ -197,10 +197,13 @@ def get_starting_lineups(): #WIP
     upload_dataframes(df, 'M', index=False, columns=False)
     print("GET MATCHUPS AND LINEUPS DONE")
 
+def main():
+  get_player_stats()
+  #get_player_advanced_stats()
+  #get_starting_lineups()
+  #get_team_adv()
+  #get_team_stats()
 
 if __name__ == '__main__':
-  get_player_stats()
-  get_player_advanced_stats()
-  get_starting_lineups()
-  get_team_adv()
-  get_team_stats()
+  main()
+
