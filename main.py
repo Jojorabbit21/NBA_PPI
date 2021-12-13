@@ -147,8 +147,6 @@ def get_team_stats():
 def get_json_data(url):
     raw_data = requests.get(url, headers=data_headers)
     json = raw_data.json()
-    with open('pls.json','w') as file:
-      js.dump(json, file)
     return json.get('resultSets')
   
 def get_todays_games_json(url):
