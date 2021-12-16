@@ -131,6 +131,7 @@ def get_team_adv():
   df.columns = df.columns.droplevel()
   df = df.drop(['Rk','Unnamed: 17_level_1','Unnamed: 22_level_1','Unnamed: 27_level_1','Attend.','Attend./G'], axis=1)
   df = df.drop(30, axis=0)
+  df['Team'] = df['Team'].str.replace('Los Angeles Clippers','LA Clippers')
   df.sort_values(by=['Team'],axis=0,inplace=True)
   print("TEAM ADVANCED STATS COLLECTED")
   print("CLEARING SHEETS")
