@@ -8,6 +8,7 @@ DB_SHEETS = {
   "STAT_A": 'Stats_Advanced',
   "TEAM": 'Teams',
   "TEAM_A": 'Teams_Advanced',
+  "TEAM_B": 'Teams_Bench',
   'M': 'Starters' 
 }
 DB_START_COL = {
@@ -16,6 +17,7 @@ DB_START_COL = {
   'STAT_A': 2,
   'TEAM': 1,
   "TEAM_A": 1,
+  'TEAM_B': 1,
   'M': 1
 }
 

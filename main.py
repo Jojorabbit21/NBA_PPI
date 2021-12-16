@@ -11,6 +11,12 @@ starters_url = 'https://stats.nba.com/js/data/leaders/00_active_starters_{}.json
 
 team_adv_url = 'https://www.basketball-reference.com/leagues/NBA_2022.html#all_advanced_team'
 
+team_bench_url = 'https://stats.nba.com/stats/leaguedashteamstats?Conference=&DateFrom=&DateTo=&' \
+                'Division=&GameScope=&GameSegment=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&'\
+                'Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&'\
+                'PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=2020-21&SeasonSegment=&SeasonType=Regular+Season&'\
+                'ShotClockRange=&StarterBench=Bench&TeamID=0&TwoWay=0&VsConference=&VsDivision='
+
 data_url = 'https://stats.nba.com/stats/leaguedashteamstats?' \
            'Conference=&DateFrom=&DateTo=&Division=&GameScope=&' \
            'GameSegment=&LastNGames=0&LeagueID=00&Location=&' \
@@ -132,7 +138,16 @@ def get_team_adv():
   print("UPLOADING TEAM ADVANCED STATS")
   upload_dataframes(df,'TEAM_A',index=False, columns=True)
   print("GET TEAM ADVANCED STATS DONE")
-
+  
+def get_team_bench_stats():
+  print("GET TEAM BENCH STATS")
+  clear_sheet('TEAM_B')
+  js = get_json_data(team_bench_url)
+  df = to_data_frame(js)
+  print("TEAM BENCH STATS COLLECTED")
+  print("UPLOADING TEAM BENCH STATS")
+  upload_dataframes(df,'TEAM_B',index=False,columns=True)
+  print("GET TEAM BENCH STATS DONE")
 def get_team_stats():
   print("GET TEAM STATS")
   print("CLEARING SHEETS")
@@ -196,11 +211,12 @@ def get_starting_lineups(): #WIP
     print("GET MATCHUPS AND LINEUPS DONE")
 
 def main():
-  get_player_stats()
-  get_player_advanced_stats()
-  # get_starting_lineups()
-  get_team_adv()
-  get_team_stats()
+  # get_player_stats()
+  # get_player_advanced_stats()
+  # # get_starting_lineups()
+  # get_team_adv()
+  # get_team_stats()
+  get_team_bench_stats()
 
 # Start
 main()
