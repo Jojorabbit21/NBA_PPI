@@ -213,10 +213,10 @@ def get_starting_lineups(): #WIP
 
 def main():
   get_player_stats()
-  get_player_advanced_stats()
-  get_team_adv()
-  get_team_stats()
-  get_team_bench_stats()
+#   get_player_advanced_stats()
+#   get_team_adv()
+#   get_team_stats()
+#   get_team_bench_stats()
 
 # Start
 main()
