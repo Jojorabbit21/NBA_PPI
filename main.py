@@ -56,13 +56,13 @@ games_header = {
    
 data_headers = {
     'Accept': 'application/json, text/plain, */*',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Host': 'stats.nba.com',
+    # 'Accept-Encoding': 'gzip, deflate, br',
+    #'Host': 'stats.nba.com',
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_2) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.4 Safari/605.1.15',
-    'Accept-Language': 'en-us',
-    'Referer': 'https://stats.nba.com/teams/traditional/?sort=W_PCT&dir=-1&Season=2019-20&SeasonType=Regular%20Season',
+    # 'Accept-Language': 'en-us',
+    # 'Referer': 'https://stats.nba.com/teams/traditional/?sort=W_PCT&dir=-1&Season=2019-20&SeasonType=Regular%20Season',
     'Connection': 'keep-alive',
-    'x-nba-stats-origin': 'stats',
+    # 'x-nba-stats-origin': 'stats',
     'x-nba-stats-token': 'true'
 }
 
@@ -163,6 +163,9 @@ def get_team_stats():
 def get_json_data(url):
     raw_data = requests.get(url, headers=data_headers)
     json = raw_data.json()
+    print(raw_data.status_code)
+    # with open('test.json','w',encoding='utf-8') as file:
+    #   js.dump(json, file)
     return json.get('resultSets')
   
 def get_todays_games_json(url):
@@ -212,12 +215,13 @@ def get_starting_lineups(): #WIP
     print("GET MATCHUPS AND LINEUPS DONE")
 
 def main():
-#   get_player_stats()
+  get_player_stats()
 #   get_player_advanced_stats()
-  get_team_adv()
+  # get_team_adv()
 #   get_team_stats()
 #   get_team_bench_stats()
 
 # Start
-main()
+if __name__ == '__main__':
+  main()
 
